@@ -1,0 +1,26 @@
+node_modules
+# Keep environment variables out of version control
+.env
+/dist
+.adminjs
+.idea
+uploads
+# Project exclude paths
+/src/admin/index.d.ts
+/src/admin/index.js
+/src/admin/index.js.map
+/src/admin/locale.d.ts
+/src/admin/locale.js
+/src/admin/locale.js.map
+/src/utils/getConfig.d.ts
+/src/utils/getConfig.js
+/src/utils/getConfig.js.map
+/src/utils/handleError.d.ts
+/src/utils/handleError.js
+/src/utils/handleError.js.map
+/src/config.d.ts
+/src/config.js
+/src/config.js.map
+/src/index.d.ts
+/src/index.js
+/src/index.js.map

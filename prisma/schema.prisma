@@ -1,0 +1,184 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Developer {
+  id        Int        @id @default(autoincrement())
+  name      String
+  lastname  String
+  birthday  DateTime
+  describe  String
+  documents Document[]
+  expenses  Expense[]
+  orders    Order[]
+
+  @@map("developer")
+}
+
+model Customer {
+  id          Int        @id @default(autoincrement())
+  name        String
+  companyName String?    @map("company_name")
+  documents   Document[]
+  incomes     Income[]
+  orders      Order[]
+
+  @@map("customer")
+}
+
+enum OrderStatus {
+  created
+  processing
+  done
+  canceled
+}
+
+model Order {
+  id         Int              @id @default(autoincrement())
+  name       String
+  describe   String
+  workplan   String
+  status     OrderStatus      @default(created)
+  createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime         @updatedAt @map("updated_at")
+  services   ServiceOnOrder[]
+  documents  Document[]
+  stages     Stage[]
+  category   Category         @relation(fields: [categoryId], references: [id])
+  categoryId Int              @map("category_id")
+  customer   Customer         @relation(fields: [customerId], references: [id])
+  customerId Int              @map("customer_id")
+  developers Developer[]
+
+  @@map("order")
+}
+
+model Service {
+  id         Int              @id @default(autoincrement())
+  name       String
+  describe   String?
+  price      Int
+  createdAt  DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  orders     ServiceOnOrder[]
+  categories Category[]
+
+  @@map("service")
+}
+
+model ServiceOnOrder {
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   Int     @map("order_id")
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId Int     @map("service_id")
+  amount    Int
+
+  @@id([orderId, serviceId])
+  @@map("service_order")
+}
+
+model Income {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at")
+  describe  String?
+  amount    Int
+  isPrepay  Boolean  @default(false) @map("is_prepay")
+
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int      @map("customer_id")
+  stage      Stage    @relation(fields: [stageId], references: [id])
+  stageId    Int      @map("stage_id")
+
+  @@map("income")
+}
+
+model Expense {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at")
+  describe  String?
+  amount    Int
+  isPrepay  Boolean  @default(false) @map("is_prepay")
+
+  developer   Developer @relation(fields: [developerId], references: [id])
+  developerId Int       @map("developer_id")
+  stage       Stage     @relation(fields: [stageId], references: [id])
+  stageId     Int       @map("stage_id")
+
+  @@map("expense")
+}
+
+enum StageStatus {
+  created
+  processing
+  done
+  payed
+  canceled
+}
+
+model Stage {
+  id        Int         @id @default(autoincrement())
+  orderId   Int         @map("order_id")
+  order     Order       @relation(fields: [orderId], references: [id])
+  describe  String
+  price     Int
+  status    StageStatus @default(created)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  endAt     DateTime?   @map("end_at")
+  expenses  Expense[]
+  incomes   Income[]
+
+  @@map("stage")
+}
+
+enum Role {
+  user
+  admin
+}
+
+model Administrator {
+  login     String   @id @unique
+  password  String
+  role      Role     @default(user)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("administrator")
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  describe String
+  services Service[]
+  orders   Order[]
+
+  @@map("category")
+}
+
+model Document {
+  id          Int      @id @default(autoincrement())
+  file        String
+  describe    String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  developerId Int?     @map("developer_id")
+  customerId  Int?     @map("customer_id")
+  orderId     Int?     @map("order_id")
+
+  developer Developer? @relation(fields: [developerId], references: [id])
+  customer  Customer?  @relation(fields: [customerId], references: [id])
+  order     Order?     @relation(fields: [orderId], references: [id])
+
+  @@map("document")
+}
