@@ -1,6 +1,3 @@
-// import { RecordJSON, PropertyJSON } from '../../../interfaces';
-// import { flat } from '../../../../utils';
-// import { convertToSubProperty } from './convert-to-sub-property';
 import { ValueGroup } from '@adminjs/design-system';
 import { ParamsType, PropertyJSON, RecordJSON, useTranslation } from 'adminjs';
 import React from 'react';
@@ -16,21 +13,6 @@ type Props = {
 const ManyToManyShow = (props: Props) => {
   const { property, record, ItemComponent } = props;
   const { translateProperty } = useTranslation();
-  const DELIMITER = '.';
-
-  const getSubpropertyPath = (path: string, index: number) =>
-    [path, index].join(DELIMITER);
-
-  const convertToSubProperty = (
-    arrayProperty: PropertyJSON,
-    index: number,
-  ): PropertyJSON => ({
-    ...arrayProperty,
-    path: getSubpropertyPath(arrayProperty.path, index),
-    label: `[${index + 1}]`,
-    isArray: false,
-    isDraggable: false,
-  });
 
   const items = unflatten<ParamsType, any>(record.params)[property.path] || [];
 

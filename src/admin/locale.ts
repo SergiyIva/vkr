@@ -22,22 +22,34 @@ export default {
     price: 'Цена',
     upload: 'Перетащите файл',
     description: 'Описание',
+    describe: 'Описание',
     devMode: "Режим разработки",
     isComplete: "Завершено",
     login: "Логин",
     password: "Пароль",
     role: "Роль",
-    props: "Props (свойства)",
     image: "Изображение",
     position: "Позиция",
     isShow: "Доступен",
     amount: "Количество",
-    country: "Страна",
-    subscribe: "Подписка",
     endAt: "Заканчивается",
-    product: "Продукт",
-    Ingredients: "Ингредиенты",
-    comment: "Комментарий"
+    comment: "Комментарий",
+    lastname: "Фамилия",
+    birthday: "День рождения",
+    companyName: "Название компании",
+    developers: "Разработчики",
+    developer: "Разработчик",
+    workplan: "План работ",
+    status: "Статус",
+    category: "Категория",
+    categories: "Категории",
+    customer: "Клиент",
+    services: "Услуги",
+    isPrepay: "Предоплата",
+    stage: "Этап проекта",
+    orderCount: "Кол-во заказов",
+    order: "Заказ",
+    sum: "Сумма",
   },
   labels: {
     navigation: 'Навигация',
@@ -49,16 +61,26 @@ export default {
     dashboard: 'Управление',
     User: 'Пользователи',
     Message: "Сообщения",
-    Admin: "Администраторы",
-    Ingredient: "Ингредиенты",
-    Product: "Продукты",
-    Record: "Записи",
-    Incident: "Инциденты"
+    Administrator: "Администраторы",
+    Category: "Категории",
+    Customer: "Клиенты",
+    Developer: "Разработчики",
+    Document: "Документы",
+    Expense: "Расходы",
+    Income: "Доходы",
+    Order: "Заказы",
+    Service: "Услуги",
+    Stage: "Этапы проектов"
   },
   resources: {
     Incident: {
       properties: {
         createdAt: "День"
+      }
+    },
+    Order: {
+      properties: {
+        name: "Название"
       }
     }
   },
@@ -104,7 +126,7 @@ export default {
     Login: {
       welcomeHeader: 'Приветствую',
       welcomeMessage:
-        'вас в нашей системе учета питания, войдите в свой аккаунт, чтобы приступить к работе.',
+        'вас в нашей системе учета, войдите в свой аккаунт, чтобы приступить к работе.',
       properties: {
         email: 'Логин',
         password: 'Пароль',
@@ -148,12 +170,12 @@ export default {
     welcomeOnBoard_title: 'Добро пожаловать на борт!',
     welcomeOnBoard_subtitle:
       'Теперь вы один из нас! Мы подготовили для вас несколько советов для начала:',
-    addingResources_title: 'Добавление позиций меню',
+    addingResources_title: 'Управление разработчиками',
     addingResources_subtitle:
-      'Добавляйте новые позиции меню с возможностью изменения и удаления старых',
+      'Добавляйте новых разработчиков, занимающихся проектами, с возможностью изменения и удаления старых',
     customizeResources_title: 'Просмотр заказов',
     customizeResources_subtitle:
-      'Заказы клиентов, их статус, позиции меню и время оформления и изменения',
+      'Заказы клиентов, их статус, время оформления и изменения',
     customizeActions_title: 'Настройка действий',
     customizeActions_subtitle:
       'Изменение существующих действий и добавление новых',

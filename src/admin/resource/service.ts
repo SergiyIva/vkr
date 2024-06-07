@@ -1,21 +1,39 @@
-import { getModelByName } from '@adminjs/prisma';
 import { ResourceWithOptions } from "adminjs";
-import { PrismaClient } from "@prisma/client";
+import { getModelByName } from "@adminjs/prisma";
+import { prisma } from "../db.js";
 import { injectManyToManySupport } from "../hooks/many-to-many.hook.js";
 
-const productsNavigation = {
-  icon: "ShoppingBag"
+const serviceNavigation = {
+  icon: 'Star'
 };
 
-export const ProductResource = (client: PrismaClient): ResourceWithOptions => ({
+export const ServiceResource: ResourceWithOptions = {
   resource: {
-    model: getModelByName("Product"),
-    client,
+    model: getModelByName("Service"),
+    client: prisma,
     options: {}
   },
   options: injectManyToManySupport({
-    navigation: productsNavigation,
-    properties: {},
+    navigation: serviceNavigation,
+    properties: {
+      describe: {
+        type: "richtext"
+      },
+      price: {
+        type: 'number',
+        props: {
+          type: "number"
+        }
+      },
+      createdAt: {
+        isVisible: {
+          show: true,
+          list: true,
+          filter: true,
+          edit: false
+        }
+      }
+    },
     actions: {
       new: {
         before: async (request) => {
@@ -47,6 +65,6 @@ export const ProductResource = (client: PrismaClient): ResourceWithOptions => ({
           return request;
         },
       },
-    },
-  }, [{ propertyName: 'Ingredients', modelClassName: 'Ingredient' }])
-});
+    }
+  }, [{ propertyName: "categories", modelClassName: "Category" }],)
+};

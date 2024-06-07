@@ -67,28 +67,6 @@ const after = async (
       context.resource.getManyReferences() as (CustomResource)[];
 
     const manyToManyProperties = manyProperties;
-    //   manyProperties.filter(
-    //   (prop) =>
-    //     //@ts-ignore
-    //     Object.keys(context.resource.model.associations).indexOf(
-    //       prop,
-    //     ) >= 0,
-    // );
-
-    const getCircularReplacer = () => {
-      const seen = new WeakSet();
-
-      return (key: any, value: any) => {
-        if (typeof value === 'object' && value !== null) {
-          if (seen.has(value)) {
-            return;
-          }
-          seen.add(value);
-        }
-
-        return value;
-      };
-    };
 
     if (request.method === 'get' && request.params.action === 'list') {
       await Promise.all(
@@ -164,6 +142,7 @@ export const injectManyToManySupport = (
     modelClassName: string;
     components?: { show?: string | false; edit?: string | false; list?: string | false },
   }[],
+  additionalAfterFns?: { show?: any[], list?: any[] }
 ): ResourceOptions => {
   const afterFn = after;
   properties.forEach((propForSupport) => {
@@ -171,11 +150,10 @@ export const injectManyToManySupport = (
       propForSupport.modelClassName,
       propForSupport.components,
     );
-    options.actions!.new!.after = [afterFn];
+    options.actions!.new!.after = [afterFn,];
     options.actions!.edit!.after = [afterFn];
-    options.actions!.show!.after = [after];
-    //@ts-ignore
-    options.actions!.list!.after = [after];
+    options.actions!.show!.after = additionalAfterFns?.show ? [after, ...additionalAfterFns.show] : [after];
+    options.actions!.list!.after = additionalAfterFns?.list ? [after, ...additionalAfterFns.list] : [after];
   });
   return options;
 };

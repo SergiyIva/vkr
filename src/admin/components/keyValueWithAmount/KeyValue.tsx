@@ -26,9 +26,7 @@ export type EditKeyValuePairProps = {
   property: PropertyJSON
   error?: RecordError
 }
-type SelectRecordEnhanced = SelectRecord & {
-  // record: RecordJSON;
-};
+type SelectRecordEnhanced = SelectRecord
 
 const MyForm = styled(FormGroup)`
     label {
@@ -127,7 +125,7 @@ const EditKeyValuePair: React.FC<EditKeyValuePairProps> = (props) => {
         <FormGroup mb="0px">
           <Input
             mb="10px"
-            placeholder={tm('amount')}
+            placeholder={"Количество"}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setAmountValue(e.target.value)}
             onBlur={() => onValueChange(currentKey, amountValue)}
             onKeyDown={(e: KeyboardEvent) => e.keyCode === 13 && onValueChange(currentKey, amountValue)}
@@ -169,7 +167,7 @@ const Edit: React.FC<EditPropertyProps> = (props) => {
       record.populated[`${property.path}.${selectedValue}`]?.params;
     if (!params) return {};
     return {
-      [params.aiId]: {
+      [params.serviceId]: {
         amount: params.amount,
       }
     };
@@ -214,9 +212,6 @@ const Edit: React.FC<EditPropertyProps> = (props) => {
       }
     });
 
-  /**
-   * This is used to prevent empty/duplicate keys from being added to JSON
-   */
   const getNextKey = (previousId?: number): string => {
     const nextId = previousId
       ? previousId + 1
@@ -252,7 +247,7 @@ const Edit: React.FC<EditPropertyProps> = (props) => {
   useEffect(() => {
     onChange(property.path, Object.entries(objectValue).map(([key, value]) => ({
       id: key,
-      ...value
+      amount: +value.amount
     })));
   }, [objectValue]);
 

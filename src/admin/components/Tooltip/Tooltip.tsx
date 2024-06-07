@@ -50,7 +50,6 @@ const Tooltip = ({
     ],
   });
   const [entered, setEntered] = useToggle();
-  // useClickOutside(setEntered(false), ref);
   const [setTimer, clearTimer] = useTimeout(setEntered(true), 300);
 
   return (

@@ -4,7 +4,7 @@ import PropertyHeader from './PropertyHeader.js';
 import { RecordJSON, RecordsTableHeaderProps, useQueryParams } from 'adminjs';
 import { display } from './utils/tableDisplay.js';
 //@ts-ignore
-import { getResourceElementCss } from "../../../node_modules/adminjs/src/frontend/utils/data-css-name";
+import { getResourceElementCss } from "../../../../node_modules/adminjs/src/frontend/utils/data-css-name";
 import pickBy from "lodash/pickBy.js";
 import { isNil } from "lodash";
 

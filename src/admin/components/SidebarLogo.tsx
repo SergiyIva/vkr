@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const SidebarLogo = () => {
   return (
     <Wrapper to={'/admin'}>
-      <Logo src={'/logo.jpg'} alt={'Logo'} />
+      <Logo src={'/logo.png'} alt={'Logo'} />
     </Wrapper>
   );
 };

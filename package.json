@@ -1,14 +1,13 @@
 {
   "name": "vkr-electroniy-uchet",
   "version": "1.0.0",
-  "description": "",
+  "description": "Выпускная квалификационная работа студента по теме 'Разработка автоматизированной системы электронного учёта ведения и контроля предприятия ИП Иванов Сергей'",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "npx tsc",
     "start": "npm run build && node ./dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
   },
   "author": "Ivanov Sergey <max3xxx3@gmail.com>",
   "license": "ISC",

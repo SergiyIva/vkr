@@ -7,31 +7,20 @@ import { buildAuthenticatedRouter } from "@adminjs/express";
 
 import localeRu from "./locale.js";
 import config from "../config.js";
-import { IngredientResource } from "./resource/ingredient.js";
-import { PrismaClient } from "@prisma/client";
-import { RecordResource } from "./resource/record.js";
-import { ProductResource } from "./resource/product.js";
-import { componentLoader } from "./components/components.js";
+import { componentLoader, Components } from "./components/components.js";
 import { CustomResource } from "./admin.resource.js";
-import { IncidentResource } from "./resource/incident.js";
-
-export const prisma = new PrismaClient();
-
-// await prisma.ingredient.create({
-//   data: {
-//     name: "Ingredient",
-//     products: {
-//       create: [
-//         {
-//           name: "Activia"
-//         },
-//         {
-//           name: "Something"
-//         }
-//       ]
-//     }
-//   }
-// });
+import { AdministratorResource } from "./resource/administrator.js";
+import { DeveloperResource } from "./resource/developer.js";
+import { OrderResource } from "./resource/order.js";
+import { CustomerResource } from "./resource/customer.js";
+import { ServiceResource } from "./resource/service.js";
+import { ServiceOnOrderResource } from "./resource/serviceOnOrder.js";
+import { IncomeResource } from "./resource/income.js";
+import { ExpenseResource } from "./resource/expense.js";
+import { StageResource } from "./resource/stage.js";
+import { CategoryResource } from "./resource/category.js";
+import { DocumentResource } from "./resource/document.js";
+import { prisma } from "./db.js";
 
 AdminJS.registerAdapter({ Database, Resource: CustomResource });
 
@@ -51,8 +40,23 @@ const authenticate = async (email: string, password: string) => {
   const adminUser = ADMIN_USERS.find(
     (e) => e.email === trimedName
   );
-  if (!adminUser)
-    return null;
+  if (!adminUser) {
+    const user = await prisma.administrator.findUnique({
+      where: {
+        login: trimedName
+      }
+    });
+    if (!user)
+      return null;
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid)
+      return null;
+
+    return Promise.resolve({
+      email: user.login,
+      role: user.role
+    });
+  }
   const valid = await bcrypt.compare(password, adminUser.password);
   if (!valid)
     return null;
@@ -75,10 +79,17 @@ const sessionStore = new ConnectSession({
 
 const adminOptions: AdminJSOptions = {
   resources: [
-    IngredientResource(prisma),
-    ProductResource(prisma),
-    RecordResource(prisma),
-    IncidentResource(prisma)
+    AdministratorResource,
+    DeveloperResource,
+    CustomerResource,
+    OrderResource,
+    IncomeResource,
+    ExpenseResource,
+    StageResource,
+    CategoryResource,
+    ServiceResource,
+    ServiceOnOrderResource,
+    DocumentResource
   ],
   componentLoader: componentLoader,
   locale: {
@@ -88,8 +99,9 @@ const adminOptions: AdminJSOptions = {
       ru: localeRu
     },
   },
+  dashboard: { component: Components.Dashboard },
   branding: {
-    companyName: 'Дневник Питания',
+    companyName: 'Система учёта',
     withMadeWithLove: false,
   }
 };

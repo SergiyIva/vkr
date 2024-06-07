@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { ButtonGroup, CheckBox, Placeholder, TableCell, TableRow } from '@adminjs/design-system';
@@ -16,12 +16,14 @@ import {
   useModal,
   useTranslation
 } from "adminjs";
-import { getResourceElementCss } from "../../../node_modules/adminjs/src/frontend/utils/data-css-name";
+import { getResourceElementCss } from "../../../../node_modules/adminjs/src/frontend/utils/data-css-name";
 import {
   buildActionClickHandler
-} from "../../../node_modules/adminjs/src/frontend/interfaces/action/build-action-click-handler";
-import { actionHref } from "../../../node_modules/adminjs/src/frontend/interfaces/action/action-href";
-import { buildActionTestId } from "../../../node_modules/adminjs/src/frontend/interfaces/action/build-action-test-id";
+} from "../../../../node_modules/adminjs/src/frontend/interfaces/action/build-action-click-handler";
+import { actionHref } from "../../../../node_modules/adminjs/src/frontend/interfaces/action/action-href";
+import {
+  buildActionTestId
+} from "../../../../node_modules/adminjs/src/frontend/interfaces/action/build-action-test-id";
 import { display } from './utils/tableDisplay.js';
 
 export type RecordInListProps = {

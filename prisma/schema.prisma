@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -78,13 +72,14 @@ model Service {
 }
 
 model ServiceOnOrder {
+  id        Int     @id @default(autoincrement())
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   Int     @map("order_id")
   service   Service @relation(fields: [serviceId], references: [id])
   serviceId Int     @map("service_id")
   amount    Int
 
-  @@id([orderId, serviceId])
+  @@unique([orderId, serviceId])
   @@map("service_order")
 }
 
@@ -132,6 +127,7 @@ model Stage {
   id        Int         @id @default(autoincrement())
   orderId   Int         @map("order_id")
   order     Order       @relation(fields: [orderId], references: [id])
+  name      String
   describe  String
   price     Int
   status    StageStatus @default(created)
@@ -169,7 +165,7 @@ model Category {
 
 model Document {
   id          Int      @id @default(autoincrement())
-  file        String
+  file        String?
   describe    String?
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
   developerId Int?     @map("developer_id")

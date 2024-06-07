@@ -1,7 +1,8 @@
 import express from "express";
 import config from "./config.js";
-import { admin, adminRouter, prisma } from "./admin/index.js";
+import { admin, adminRouter } from "./admin/index.js";
 import { handleError } from "./utils/handleError.js";
+import { prisma } from "./admin/db.js";
 
 console.log("server script running...");
 process.on("SIGTERM", () =>
@@ -36,13 +37,13 @@ app.use(express.static("public"));
 app.use(admin.options.rootPath, adminRouter);
 
 app.get("*", (_, res) =>
-  res.status(404).send("Not found"));
+  res.status(404).send("Не найдено!"));
 
 app.use(handleError);
 
 app.listen(port, () => {
   console.log(new Date().toLocaleString("ru"));
-  console.log(`Express server started on http://localhost:${port}`);
+  console.log(`Express сервер запущен на http://localhost:${port}`);
 });
 
 (async () => {

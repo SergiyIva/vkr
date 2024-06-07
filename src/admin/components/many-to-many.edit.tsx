@@ -1,24 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import {
-  FormGroup,
-  FormMessage,
-  Label,
-  SelectAsync,
-} from '@adminjs/design-system';
-import {
-  ApiClient,
-  EditPropertyPropsInArray,
-  ParamsType,
-  RecordJSON,
-  SelectRecord,
-  useTranslation,
-} from 'adminjs';
+import { FormGroup, FormMessage, Label, SelectAsync, } from '@adminjs/design-system';
+import { ApiClient, EditPropertyPropsInArray, ParamsType, RecordJSON, SelectRecord, useTranslation, } from 'adminjs';
 import { unflatten } from 'flat';
 
 type CombinedProps = EditPropertyPropsInArray;
-type SelectRecordEnhanced = SelectRecord & {
-  // record: RecordJSON;
-};
+type SelectRecordEnhanced = SelectRecord & {};
 
 const EditManyToManyInput: FC<CombinedProps> = (props) => {
   const { onChange, property, record } = props;
@@ -56,8 +42,8 @@ const EditManyToManyInput: FC<CombinedProps> = (props) => {
       label: /\D/.test(optionRecord.title)
         ? optionRecord.title
         : optionRecord.params.firstName ||
-          optionRecord.params.name ||
-          optionRecord.title,
+        optionRecord.params.name ||
+        optionRecord.title,
     }));
   };
   const error = record?.errors[property.path];
